@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Controle</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(45deg, #2b5876, #4e4376, #6a3093); /* Gradiente animado */
+            background-size: 600% 600%;
+            animation: gradientAnimation 15s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Estilo da janela */
+        .login-container {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 16px;
+            padding: 40px;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            transform: translateY(-50px);
+            animation: slideIn 1s ease-out forwards;
+        }
+
+        @keyframes slideIn {
+            0% {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .login-container img {
+            max-width: 80px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2rem;
+            color: #fff;
+            background: #333;
+            border: 1px solid #444;
+            border-radius: 8px;
+            outline: none;
+            transition: all 0.4s ease;
+        }
+
+        .input-group input::placeholder {
+            color: #bbb;
+            font-size: 1rem;
+        }
+
+        .input-group input:focus {
+            border-color: #4e4376;
+            background-color: #555;
+            transform: scale(1.05);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1rem;
+            color: #fff;
+            background: linear-gradient(45deg, #4e4376, #6a3093);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .login-btn:hover {
+            background: linear-gradient(45deg, #2b5876, #6a3093);
+            transform: scale(1.1);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-btn:active {
+            background: linear-gradient(45deg, #1f3c5b, #5a2073);
+        }
+
+        .info-text {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #bbb;
+            line-height: 1.5;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .info-text span {
+            font-weight: bold;
+            color: #fff;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Estilo da janela de controle (pós-login) */
+        .control-panel {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 12px;
+            padding: 30px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            position: relative;
+            display: none; /* Inicialmente oculta */
+        }
+
+        .control-panel h2 {
+            color: #fff;
+            font-size: 1.6rem;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        /* Seções de controle (Begins) */
+        .control-section {
+            background: #222;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .control-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        /* Checkboxes */
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-group label {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            margin-left: 10px;
+        }
+
+        .checkbox-group input {
+            margin-right: 10px;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .toggle-switch label {
+            font-size: 1.1rem;
+            margin-right: 10px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 25px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 25px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 15px;
+            width: 15px;
+            border-radius: 50%;
+            left: 4px;
+            bottom: 5px;
+            background-color: white;
+            transition: 0.4s;
+        }
+
+        input:checked + .slider {
+            background-color: #4e4376;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(25px);
+        }
+
+        /* Slider FOV and Smooth */
+        .slider-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .slider-container input {
+            width: 100%;
+        }
+
+        .slider-container label {
+            font-size: 1rem;
+            color: #bbb;
+        }
+
+        .slider-container span {
+            font-size: 1rem;
+            color: #bbb;
+        }
+
+        /* Nova seção (Discord e Botões adicionais) */
+        .discord-section {
+            background: #333;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .discord-section h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+
+        .discord-section button {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.2rem;
+            color: #fff;
+            background: linear-gradient(45deg, #4e4376, #6a3093);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            margin-bottom: 10px;
+        }
+
+        .discord-section button:hover {
+            background: linear-gradient(45deg, #2b5876, #6a3093);
+            transform: scale(1.1);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .discord-section button:active {
+            background: linear-gradient(45deg, #1f3c5b, #5a2073);
+        }
+
+        .discord-section .game-info {
+            font-size: 1.1rem;
+            color: #bbb;
+            margin-top: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Tela de login -->
+    <div id="loginScreen" class="login-container">
+        <img src="logo.png" alt="Logo">
+        <h1></h1>
+        <div class="input-group">
+            <input type="text" id="keyInput" placeholder="License Key" required>
+        </div>
+        <button class="login-btn" onclick="verifyKey()">Continue</button>
+        <p class="info-text">
+            Todas as versões do Android sem necessidade de Root.<br>
+            <span>Sem risco de banimentos ou black-lists.</span>
+        </p>
+    </div>
+
+    <!-- Painel de Controle (pós-login) -->
+    <div id="controlPanel" class="control-panel">
+        <h2>Menu Android External</h2>
+
+        <!-- Primeira seção (Checkboxes) -->
+        <div class="control-section">
+            <h3>ESP Settings</h3>
+            <div class="checkbox-group">
+                <label><input type="checkbox" id="espLine"> ESP Line</label>
+                <label><input type="checkbox" id="espVida"> ESP Vida</label>
+                <label><input type="checkbox" id="espEsqueleto"> ESP Esqueleto</label>
+            </div>
+        </div>
+
+        <!-- Segunda seção (Aimbot, FOV, Smooth) -->
+        <div class="control-section">
+            <h3>Aimbot Settings</h3>
+
+            <!-- Toggle Switch para Aimbot -->
+            <div class="toggle-switch">
+                <label for="aimbotToggle">Ativar Aimbot:</label>
+                <label class="switch">
+                    <input type="checkbox" id="aimbotToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <!-- Sliders para FOV e Smooth -->
+            <div class="slider-container">
+                <label for="fovSlider">Taxa do FOV:</label>
+                <input type="range" id="fovSlider" min="1" max="100" value="50">
+                <span id="fovValue">50</span>
+            </div>
+
+            <div class="slider-container">
+                <label for="smoothSlider">Taxa de Smooth:</label>
+                <input type="range" id="smoothSlider" min="1" max="100" value="50">
+                <span id="smoothValue">50</span>
+            </div>
+        </div>
+
+        <!-- Seção Discord e Botões adicionais -->
+        <div class="discord-section">
+            <h3>Methal Cheats</h3>
+            <button onclick="accessDiscord()">Acessar Discord</button>
+            <div class="game-info">
+                <button>Injetar</button> <span>Free Fire 1.109.1</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Função para verificar a chave e mostrar o painel de controle
+        function verifyKey() {
+            const keyInput = document.getElementById('keyInput').value;
+            const loginScreen = document.getElementById('loginScreen');
+            const controlPanel = document.getElementById('controlPanel');
+
+            let validKeys = ["7-dias-methalcheats-2434532bD"]; // Lista de chaves válidas
+            if (validKeys.includes(keyInput)) {
+                loginScreen.style.display = 'none'; // Fecha a janela de login
+                controlPanel.style.display = 'block'; // Exibe o painel de controle
+            } else {
+                alert('Chave inválida!');
+            }
+        }
+
+        // Funções para atualizar os valores dos sliders
+        document.getElementById('fovSlider').addEventListener('input', function() {
+            document.getElementById('fovValue').textContent = this.value;
+        });
+
+        document.getElementById('smoothSlider').addEventListener('input', function() {
+            document.getElementById('smoothValue').textContent = this.value;
+        });
+
+        // Função para acessar o Discord
+        function accessDiscord() {
+            window.location.href = "https://discord.gg/nU2Rs6jZe5";
+        }
+    </script>
+</body>
+</html>
